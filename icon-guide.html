@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>アイコン生成ツール</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .icon-preview {
+      width: 512px;
+      height: 512px;
+      background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 100px;
+      margin: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .icon-content {
+      color: white;
+      font-size: 200px;
+      font-weight: bold;
+    }
+    .instructions {
+      max-width: 600px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px;
+    }
+    button {
+      padding: 15px 30px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>PWAアイコン生成</h1>
+
+  <div class="icon-preview" id="icon512">
+    <div class="icon-content">出</div>
+  </div>
+
+  <button onclick="downloadIcon(512)">512x512アイコンをダウンロード</button>
+  <button onclick="downloadIcon(192)">192x192アイコンをダウンロード</button>
+
+  <div class="instructions">
+    <h2>アイコンの設定方法</h2>
+    <ol>
+      <li>上のボタンをクリックして、512x512と192x192の両方のアイコンをダウンロードします</li>
+      <li>ダウンロードしたファイルを <code>icon-512.png</code> と <code>icon-192.png</code> にリネームします</li>
+      <li>このHTMLファイルと同じフォルダに配置します</li>
+    </ol>
+
+    <h3>または、オンラインツールを使用：</h3>
+    <ul>
+      <li><a href="https://www.pwabuilder.com/imageGenerator" target="_blank">PWA Builder Image Generator</a></li>
+      <li><a href="https://favicon.io/favicon-generator/" target="_blank">Favicon.io</a></li>
+    </ul>
+  </div>
+
+  <script>
+    function downloadIcon(size) {
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+
+      // グラデーション背景
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, '#4CAF50');
+      gradient.addColorStop(1, '#45a049');
+      ctx.fillStyle = gradient;
+
+      // 角丸の背景
+      const cornerRadius = size * 0.2;
+      ctx.beginPath();
+      ctx.moveTo(cornerRadius, 0);
+      ctx.lineTo(size - cornerRadius, 0);
+      ctx.quadraticCurveTo(size, 0, size, cornerRadius);
+      ctx.lineTo(size, size - cornerRadius);
+      ctx.quadraticCurveTo(size, size, size - cornerRadius, size);
+      ctx.lineTo(cornerRadius, size);
+      ctx.quadraticCurveTo(0, size, 0, size - cornerRadius);
+      ctx.lineTo(0, cornerRadius);
+      ctx.quadraticCurveTo(0, 0, cornerRadius, 0);
+      ctx.closePath();
+      ctx.fill();
+
+      // テキスト
+      ctx.fillStyle = 'white';
+      ctx.font = `bold ${size * 0.4}px sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('出', size / 2, size / 2);
+
+      // ダウンロード
+      canvas.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `icon-${size}.png`;
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+    }
+  </script>
+</body>
+</html>

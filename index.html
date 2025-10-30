@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4CAF50">
+  <title>出退勤打刻アプリ</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>出退勤打刻</h1>
+    </header>
+
+    <main>
+      <!-- ユーザー情報入力 -->
+      <section class="user-info">
+        <div class="input-group">
+          <label for="userName">名前</label>
+          <input type="text" id="userName" placeholder="例: 田中太郎" required>
+        </div>
+        <div class="input-group">
+          <label for="userId">ユーザーID</label>
+          <input type="text" id="userId" placeholder="例: user01" required>
+        </div>
+      </section>
+
+      <!-- GAS Web App URL設定 -->
+      <section class="api-config">
+        <div class="input-group">
+          <label for="apiUrl">GAS Web App URL</label>
+          <input type="text" id="apiUrl" placeholder="https://script.google.com/macros/s/.../exec" required>
+        </div>
+      </section>
+
+      <!-- 打刻ボタン -->
+      <section class="clock-buttons">
+        <button id="clockInBtn" class="btn btn-primary">
+          <span class="btn-icon">▶</span>
+          出勤
+        </button>
+        <button id="clockOutBtn" class="btn btn-danger" disabled>
+          <span class="btn-icon">■</span>
+          退勤
+        </button>
+      </section>
+
+      <!-- 勤務状態表示 -->
+      <section class="status-display">
+        <div id="statusMessage" class="status-message"></div>
+        <div id="workTimer" class="work-timer"></div>
+      </section>
+
+      <!-- 課題完了報告 -->
+      <section class="task-complete">
+        <div class="input-group">
+          <label for="appUrl">アプリURL</label>
+          <input type="text" id="appUrl" placeholder="https://...">
+        </div>
+        <button id="taskCompleteBtn" class="btn btn-success">
+          <span class="btn-icon">🎉</span>
+          課題完了報告
+        </button>
+      </section>
+
+      <!-- メッセージ表示 -->
+      <div id="messageBox" class="message-box"></div>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 VEXUM 出退勤管理システム</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
